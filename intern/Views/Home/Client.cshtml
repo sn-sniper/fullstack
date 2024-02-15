@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "Client";
+}
+
+<!DOCTYPE html>
+<html lang="en" ng-app="client-app" ng-controller="ClientController">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="~/Scripts/clients.css">
+    <link rel="stylesheet" href="~/Scripts/topnav.css">
+</head>
+
+<body>
+    <div class="topnav">
+        <a href="@Url.Action("Index", "Home")">Home</a>
+        <a href="@Url.Action("Client", "Home")">Clients</a>
+    </div>
+    <form ng-submit="submitForm()">
+        <div>
+            <label for="id">ID:</label>
+            <input type="text" id="id" ng-model="client.id" required>
+        </div>
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" ng-model="client.name" required>
+        </div>
+        <div>
+            <label for="type">Type:</label>
+            <select id="type" ng-model="client.type" required>
+                <option value="Individual">Individual</option>
+                <option value="Organization">Organization</option>
+            </select>
+        </div>
+        <div ng-show="client.type === 'Individual'">
+            <label for="birthdate">Birth Date:</label>
+            <input type="date" id="birthdate" ng-model="client.birthDate">
+        </div>
+
+        <button class="cssbuttons-io">
+            <span>
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M24 12l-5.657 5.657-1.414-1.414L21.172 12l-4.243-4.243 1.414-1.414L24 12zM2.828 12l4.243 4.243-1.414 1.414L0 12l5.657-5.657L7.07 7.757 2.828 12zm6.96 9H7.66l6.552-18h2.128L9.788 21z"
+                          fill="currentColor"></path>
+                </svg>
+                Submit
+            </span>
+        </button>
+    </form>
+
+    <div id="clients-grid">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>BirthDate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="device in gridContainer">
+                    <td>{{ client.Id }}</td>
+                    <td>{{ client.Name }}</td>
+                    <td>{{ client.Type }}</td>
+                    <td>{{ client.Birthdate }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</body>
+
+</html>
+<!--
+
+ <div>
+
+<label for="nameFilter">Name Filter:</label>
+<input type="text" id="nameFilter" ng-model="nameFilter">
+ </div>
+<div>
+    <label for="typeFilter">Type Filter:</label>
+    <select id="typeFilter" ng-model="typeFilter">
+        <option value="">All</option>
+        <option value="Individual">Individual</option>
+        <option value="Organization">Organization</option>
+    </select>
+</div>
+
+-->
