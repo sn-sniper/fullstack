@@ -12,26 +12,30 @@ namespace intern.Controllers
     
     public class DevicesController : ApiController
     {
-        SqlConnection con = new SqlConnection(@"server=DEVILSBREATH\\MSSQLSERVER02; database=Devices;Integrated Security=True;");
-
-        public static String SqlConnection(String connectionString)
+        SqlConnection con;
+        public readonly string connectionString = @"server=DEVILSBREATH\\MSSQLSERVER02; database=Devices;Integrated Security=True;";
+        public string GetAllDevicesFromDatabase()
         {
-            SqlConnection con = new SqlConnection(@"server=DEVILSBREATH\\MSSQLSERVER02; database=Devices;Integrated Security=True;");
-            return con.ConnectionString;
-        }
-        public String GetAllDevicesFromDatabase()
-        {
-            SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM Device", con);
-            DataTable dt = new DataTable();
-            adapter.Fill(dt);
-            if (dt.Rows.Count > 0)
+            using(con = new SqlConnection(connectionString))
             {
-                String devices = JsonConvert.SerializeObject(dt);
-                return devices;
-            }
-            else
-            {
-                return "No Data Found";
+                con.Open();
+                using (SqlCommand command = new SqlCommand("SELECT * FROM Device", con))
+                {
+                    DataTable dt = new DataTable();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        dt.Load(reader);
+                        if (dt.Rows.Count > 0)
+                        {
+                            string devices = JsonConvert.SerializeObject(dt);
+                            return devices;
+                        }
+                        else
+                        {
+                            return "No Data Found";
+                        }
+                    }
+                }
             }
         }
 
